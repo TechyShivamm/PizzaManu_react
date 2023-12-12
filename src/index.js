@@ -63,9 +63,9 @@ function Hadder() {
   const style = {};
 
   return (
-    <h1 style={style} className="header">
-      Fast react pizza company
-    </h1>
+    <header className="header">
+      <h1 style={style}>Fast react pizza company</h1>
+    </header>
   );
 }
 
@@ -95,14 +95,15 @@ function Menu() {
     </div>
   );
 }
-function Pizza(props) {
+function Pizza({ pizzaObj }) {
   // console.log(props);
+  // if (props.pizzaObj.soldOut) return null;
   return (
-    <li className="pizza">
-      <img src={props.pizzaObj.photoName} alt={props.pizzaObj.name} />
-      <h3>{props.pizzaObj.name}</h3>
-      <p>{props.pizzaObj.ingredients}</p>
-      <span>{props.pizzaObj.price}</span>
+    <li className={`pizza ${pizzaObj.soldOut ? "sold-out" : ""}`}>
+      <img src={pizzaObj.photoName} alt={pizzaObj.name} />
+      <h3>{pizzaObj.name}</h3>
+      <p>{pizzaObj.ingredients}</p>
+      <span>{pizzaObj.soldOut ? "SOLD OUT" : pizzaObj.price}</span>
     </li>
   );
 }
@@ -121,16 +122,24 @@ function Footer() {
     <footer className="footer">
       {/* {new Date().toLocaleTimeString()} we are currently open */}
       {isOpen ? (
-        <div className="order">
-          <p>we're open untill {closeHour}:00. Come visit or order online</p>
-          <button className="btn">order</button>
-        </div>
+        <Order closeHour={closeHour} openHour={openHour} />
       ) : (
         <p>
           we're happy to welcome you between {openHour}:00 and {closeHour}:00
         </p>
       )}
     </footer>
+  );
+}
+function Order({ closeHour, openHour }) {
+  return (
+    <div className="order">
+      <p>
+        we're open untill form {openHour}:00 to {closeHour}:00. Come visit or
+        order online
+      </p>
+      <button className="btn">order</button>
+    </div>
   );
 }
 
